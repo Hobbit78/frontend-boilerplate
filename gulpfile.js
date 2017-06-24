@@ -10,17 +10,26 @@ var gulp = require('gulp'),
 	rename = require('gulp-rename'),
 	sass = require('gulp-sass'),
 	sourcemaps = require('gulp-sourcemaps'),
-	clean = require('gulp-clean');;
+	clean = require('gulp-clean');
+
+//==================================
+// Paths
+//==================================
+
+// Set base path to where the assets are.
+var path = {
+	base: 'assets/'
+}
 
 //==================================
 // Scripts Tasks
 //==================================
 gulp.task('scripts', function(){
-	gulp.src(['assets/js/**/*.js', '!assets/js/**/*.min.js'])
+	gulp.src([path.base + 'js/**/*.js', !path.base + 'js/**/*.min.js'])
 		.pipe(plumber())
 		.pipe(rename({suffix:'.min'}))
 		.pipe(uglify())
-		.pipe(gulp.dest('assets/scripts'))
+		.pipe(gulp.dest(path.base + 'scripts'))
 		.pipe(reload({stream:true}));
 });
 
@@ -30,23 +39,29 @@ gulp.task('scripts', function(){
 
 // Local sass task
 gulp.task('sass', function(){
-	gulp.src('sass/app.sass')
+	gulp.src(path.base + 'sass/**/*.sass')
 		.pipe(sourcemaps.init())
 		.pipe(plumber())
-		.pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
+		.pipe(sass({
+			includePaths: ['bower_components/foundation-sites/scss'],
+			outputStyle: 'expanded'
+		}).on('error', sass.logError))
 		.pipe(autoprefixer('last 2 versions'))
 		.pipe(sourcemaps.write())
-		.pipe(gulp.dest('assets/css/'))
+		.pipe(gulp.dest(path.base + 'css/'))
 		.pipe(reload({stream:true}));
 });
 
 // Production sass task
 gulp.task('sass-production', function(){
-	gulp.src('sass/app.sass')
+	gulp.src('assets/sass/**/*.sass')
 		.pipe(plumber())
-		.pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
+		.pipe(sass({
+			includePaths: ['bower_components/foundation/scss'],
+			outputStyle: 'compressed'
+		}).on('error', sass.logError))
 		.pipe(autoprefixer('last 2 versions'))
-		.pipe(gulp.dest('assets/css/'))
+		.pipe(gulp.dest(path.base + 'css/'))
 });
 
 //==================================
@@ -81,9 +96,9 @@ gulp.task('browser-sync', function(){
 // Watch Tasks
 //==================================
 gulp.task('watch', function(){
-	gulp.watch('assets/js/**/*.js', ['scripts']);
-	gulp.watch('assets/sass/**/*.scss', ['sass']);
-	gulp.watch('assets/sass/**/*.sass', ['sass']);
+	gulp.watch(path.base + 'js/**/*.js', ['scripts']);
+	gulp.watch(path.base + 'sass/**/*.scss', ['sass']);
+	gulp.watch(path.base + 'sass/**/*.sass', ['sass']);
 	gulp.watch('**/*.html', ['html']);
 	gulp.watch('**/*php', ['html']);
 });
