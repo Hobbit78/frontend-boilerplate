@@ -1,0 +1,17 @@
+{
+  "name": "project-name",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Pierre Denissen <pierre.denissen@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/Hobbit78/frontend-boilerplate",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

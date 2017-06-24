@@ -144,3 +144,6 @@ GitHub.sublime-settings
 node_modules
 /assets/css/*.css
 
+# Ignore bower_components
+bower_components
+
